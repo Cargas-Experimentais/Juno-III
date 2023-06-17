@@ -27,7 +27,7 @@ for x in range (2):
 
 ## Determina um diretório inicial
 
-directory = '/home/jupiterpi/Desktop/JunoIII/dados/Compilação_' #Pasta em que são colocadas as fotos
+directory = '/home/jupiterpi/Desktop/JunoIII/Dados/Compilacao_' #Pasta em que são colocadas as fotos
 n = 0
 target_cam = directory + str(n)
 flag = False
@@ -71,7 +71,7 @@ time.sleep(2)
 
 ## Buzzer de camera
 
-for x in range (5):
+for x in range (3):
     GPIO.output(buzzer,1)
     time.sleep(0.5)
     GPIO.output(buzzer,0)
@@ -80,11 +80,12 @@ for x in range (5):
 
 ## Loop que tira todas as fotos
 
-for i in range(10): 
+for i in range(100): 
     print(i)
 #     time.sleep(0.1)
     sensor(0)
-    picam2.capture_file(target_cam + '/Imagem_' + str(i) + '.jpg') # Nome da foto = Imagem_ + i
+    tstp = time.time()
+    picam2.capture_file(target_cam + '/' + str(int(tstp)) + '.jpg') # Nome da foto = Imagem_ + i
     sensor(1)
     
 picam2.stop_preview()
