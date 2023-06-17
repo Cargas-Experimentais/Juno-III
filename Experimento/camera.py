@@ -27,7 +27,7 @@ for x in range (2):
 
 ## Determina um diretório inicial
 
-directory = '/home/jupiterpi/Desktop/Nyx/dados/Compilação_' #Pasta em que são colocadas as fotos
+directory = '/home/jupiterpi/Desktop/JunoIII/dados/Compilação_' #Pasta em que são colocadas as fotos
 n = 0
 target_cam = directory + str(n)
 flag = False
