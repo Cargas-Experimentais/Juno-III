@@ -1,3 +1,4 @@
+from picamera2 import Picamera2, Preview
 import os, time,FaBo9Axis_MPU9250,csv
 import RPi.GPIO as GPIO
 
@@ -7,6 +8,12 @@ buzzer = 4
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buzzer, GPIO.OUT, initial=GPIO.LOW) 
 GPIO.setwarnings(False)
+
+for x in range (1):
+    GPIO.output(buzzer,1)
+    time.sleep(2)
+    GPIO.output(buzzer,0)
+    time.sleep(1)
 
 mpu9250 = FaBo9Axis_MPU9250.MPU9250()
 
@@ -20,7 +27,7 @@ for x in range (2):
 
 ## Determina um diretório inicial
 
-directory = '/home/jupiterpi/Desktop/JunoIII/Dados/Sensor_' #Pasta em que são colocadas as fotos
+directory = '/home/jupiterpi/Desktop/JunoIII/Dados/Compilacao_' #Pasta em que são colocadas as fotos
 n = 0
 target_cam = directory + str(n)
 flag = False
@@ -52,9 +59,33 @@ def sensor(instante):
     with open(target_cam + '/DadosSensor_' + str(n) + '.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow([indice,ax,ay,az,gx,gy,gz,mx,my,mz,'\n'])
+ 
+## Configurações da camera
+        
+picam2 = Picamera2()
+camera_config = picam2.create_still_configuration(main={"size": (2000, 1500)}, lores={"size": (640, 480)}, display="lores")
+picam2.configure(camera_config)
+picam2.start_preview(Preview.QTGL)
+picam2.start()
+time.sleep(2)
+
+## Buzzer de camera
+
+for x in range (3):
+    GPIO.output(buzzer,1)
+    time.sleep(0.5)
+    GPIO.output(buzzer,0)
+    time.sleep(0.5)
+    
+
+## Loop que tira todas as fotos
 
 for i in range(100): 
     print(i)
+#     time.sleep(0.1)
     sensor(0)
     tstp = time.time()
+    picam2.capture_file(target_cam + '/' + str(int(tstp)) + '.jpg') # Nome da foto = Imagem_ + i
     sensor(1)
+    
+picam2.stop_preview()
