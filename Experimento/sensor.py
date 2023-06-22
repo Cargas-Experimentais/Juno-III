@@ -58,3 +58,18 @@ for i in range(100):
     sensor(0)
     tstp = time.time()
     sensor(1)
+
+def sensor2():
+    accel = mpu9250.readAccel()
+    gyro = mpu9250.readGyro()
+    mag = mpu9250.readMagnet()
+    ax,ay,az = str(accel['x']),str(accel['y']),str(accel['z'])
+    gx,gy, gz = str(gyro['x']),str(gyro['y']),str(gyro['z'])
+    mx, my, mz = str(mag['x']), str(mag['y']), str(mag['z'])
+    indice =str(i) 
+    with open(target_cam + '/DadosSensor_' + str(n) + '.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([indice,ax,ay,az,gx,gy,gz,mx,my,mz,'\n'])
+
+for i in range(7200):
+    sensor2()
