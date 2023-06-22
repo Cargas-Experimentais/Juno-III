@@ -47,7 +47,7 @@ for x in range (3):
 
 ## Loop que tira todas as fotos
 
-for i in range(100): 
+for i in range(7200): 
     print(i)
     time.sleep(1)
     ct = datetime.datetime.now()
